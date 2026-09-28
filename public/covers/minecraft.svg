@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 533" role="img" aria-label="Minecraft cover">
+  <rect width="400" height="533" fill="#1c2a22"/>
+  <rect x="36" y="70" width="70" height="70" fill="#5f8f4a"/>
+  <rect x="106" y="70" width="70" height="70" fill="#3f6b38"/>
+  <rect x="176" y="70" width="70" height="70" fill="#6ea258"/>
+  <rect x="246" y="70" width="70" height="70" fill="#4d7a40"/>
+  <rect x="36" y="140" width="70" height="70" fill="#8a6240"/>
+  <rect x="106" y="140" width="70" height="70" fill="#6d4c32"/>
+  <rect x="176" y="140" width="70" height="70" fill="#a07850"/>
+  <rect x="246" y="140" width="70" height="70" fill="#5c4030"/>
+  <rect x="70" y="250" width="260" height="16" fill="#d7e7c8"/>
+  <text x="32" y="430" fill="#f4f7f2" font-family="Georgia, serif" font-size="42">Minecraft</text>
+  <text x="32" y="470" fill="#c5d7bc" font-family="Georgia, serif" font-size="18">Sandbox</text>
+</svg>

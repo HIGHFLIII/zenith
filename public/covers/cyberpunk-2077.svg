@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 533" role="img" aria-label="Cyberpunk 2077 cover">
+  <rect width="400" height="533" fill="#141820"/>
+  <rect x="40" y="300" width="36" height="120" fill="#2a3344"/>
+  <rect x="90" y="240" width="48" height="180" fill="#3a2a33"/>
+  <rect x="150" y="180" width="40" height="240" fill="#243044"/>
+  <rect x="204" y="210" width="70" height="210" fill="#3d3428"/>
+  <rect x="286" y="150" width="44" height="270" fill="#2c3548"/>
+  <rect x="40" y="120" width="220" height="8" fill="#d4a574"/>
+  <text x="32" y="450" fill="#f6f1e8" font-family="Georgia, serif" font-size="36">Cyberpunk</text>
+  <text x="32" y="492" fill="#d4a574" font-family="Georgia, serif" font-size="28">2077</text>
+</svg>

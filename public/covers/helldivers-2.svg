@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 533" role="img" aria-label="Helldivers 2 cover">
+  <rect width="400" height="533" fill="#1c1814"/>
+  <polygon points="200,60 310,300 90,300" fill="#c4a574"/>
+  <polygon points="200,120 270,300 130,300" fill="#2a241c"/>
+  <rect x="60" y="320" width="280" height="10" fill="#8d6b45"/>
+  <text x="32" y="430" fill="#f6f1e8" font-family="Georgia, serif" font-size="38">Helldivers</text>
+  <text x="32" y="478" fill="#d4a574" font-family="Georgia, serif" font-size="32">2</text>
+</svg>

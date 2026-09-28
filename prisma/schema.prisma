@@ -1,0 +1,171 @@
+// Zenith data model.
+// One Game is the master record. PlatformGame is that game on a store.
+// UserLibraryGame is a person's copy, tied to both the master game and a platform.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LibraryStatus {
+  PLAYING
+  COMPLETED
+  BACKLOG
+  DROPPED
+  WANT_TO_PLAY
+  FAVORITE
+}
+
+enum PlatformAccountStatus {
+  CONNECTED
+  NOT_CONNECTED
+  PARTIAL_SYNC
+  MANUAL_LIBRARY
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  platformAccounts PlatformAccount[]
+  libraryGames     UserLibraryGame[]
+  reviews          Review[]
+  ratings          Rating[]
+  preference       UserPreference?
+}
+
+model Platform {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+
+  accounts      PlatformAccount[]
+  platformGames PlatformGame[]
+  libraryGames  UserLibraryGame[]
+}
+
+model PlatformAccount {
+  id          String                @id @default(cuid())
+  userId      String
+  platformId  String
+  externalId  String?
+  displayName String?
+  status      PlatformAccountStatus
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platform     Platform          @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  libraryGames UserLibraryGame[]
+
+  @@unique([userId, platformId])
+  @@index([platformId])
+}
+
+model Game {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  coverPath   String
+  genres      String[]
+  multiplayer Boolean  @default(false)
+  coop        Boolean  @default(false)
+  pve         Boolean  @default(false)
+  pvp         Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  platformGames PlatformGame[]
+  libraryGames  UserLibraryGame[]
+  reviews       Review[]
+  ratings       Rating[]
+
+  @@index([title])
+}
+
+model PlatformGame {
+  id         String  @id @default(cuid())
+  gameId     String
+  platformId String
+  externalId String?
+  storeUrl   String?
+
+  game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platform Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, platformId])
+  @@index([platformId])
+}
+
+model UserLibraryGame {
+  id                String        @id @default(cuid())
+  userId            String
+  gameId            String
+  platformId        String
+  platformAccountId String?
+  status            LibraryStatus
+  playtimeMinutes   Int           @default(0)
+  lastPlayedAt      DateTime?
+  aiMatchPercent    Int?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game            Game             @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platform        Platform         @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  platformAccount PlatformAccount? @relation(fields: [platformAccountId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, gameId, platformId])
+  @@index([userId, status])
+  @@index([platformAccountId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  gameId    String
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
+  @@index([userId])
+}
+
+model Rating {
+  id        String   @id @default(cuid())
+  userId    String
+  gameId    String
+  score     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+}
+
+model UserPreference {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  favoriteGenres String[]
+  theme          String   @default("dark")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

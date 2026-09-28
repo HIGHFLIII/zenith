@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 533" role="img" aria-label="Baldur's Gate 3 cover">
+  <rect width="400" height="533" fill="#1a1424"/>
+  <circle cx="200" cy="180" r="78" fill="#3a2a4a"/>
+  <circle cx="200" cy="180" r="46" fill="#d4a574"/>
+  <path d="M70 300 H330" stroke="#d4a574" stroke-width="6"/>
+  <text x="32" y="400" fill="#f6f1e8" font-family="Georgia, serif" font-size="36">Baldur's</text>
+  <text x="32" y="448" fill="#f6f1e8" font-family="Georgia, serif" font-size="36">Gate 3</text>
+</svg>

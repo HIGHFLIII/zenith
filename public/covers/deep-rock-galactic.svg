@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 533" role="img" aria-label="Deep Rock Galactic cover">
+  <rect width="400" height="533" fill="#161410"/>
+  <path d="M40 360 Q200 80 360 360" fill="#2a241c"/>
+  <path d="M80 360 Q200 150 320 360" fill="#3d3428"/>
+  <circle cx="200" cy="250" r="28" fill="#d4a574"/>
+  <text x="32" y="430" fill="#f6f1e8" font-family="Georgia, serif" font-size="36">Deep Rock</text>
+  <text x="32" y="476" fill="#d4a574" font-family="Georgia, serif" font-size="32">Galactic</text>
+</svg>

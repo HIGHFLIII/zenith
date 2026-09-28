@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 533" role="img" aria-label="Warframe cover">
+  <rect width="400" height="533" fill="#12151c"/>
+  <polygon points="200,70 250,210 200,190 150,210" fill="#d4a574"/>
+  <polygon points="200,150 320,360 200,300 80,360" fill="#2c3548"/>
+  <polygon points="200,220 270,390 200,350 130,390" fill="#8d6b45"/>
+  <text x="32" y="470" fill="#f4f1ea" font-family="Georgia, serif" font-size="42">Warframe</text>
+</svg>
