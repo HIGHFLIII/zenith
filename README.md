@@ -135,6 +135,26 @@ Do not add `-v` unless you mean to delete the database. `docker compose down -v`
 
 To stop only the website you started with `npm run dev`, go to that terminal and press `Ctrl+C`. That does not stop PostgreSQL. Use `docker compose down` when you also want the database to stop.
 
+## How to back up the website
+
+The website code is already on GitHub. A backup saves the two things that exist only on your computer: the database (games, reviews, and the rest) and the `.env` password file.
+
+The database container has to be running. From the project folder:
+
+```bash
+sudo bash scripts/backup.sh
+```
+
+On the Raspberry Pi, run that from `~/zenith`. Each run creates a new folder under `~/zenith-backups/`, named with the date and time. Copy that folder to another computer when you can. A backup that stays only on the Pi is lost if the Pi’s card fails.
+
+To put a backup back, the database container has to be running. This replaces the current rows:
+
+```bash
+sudo bash scripts/restore-backup.sh ~/zenith-backups/2026-09-29-010000
+```
+
+Use the real folder name. The command asks you to type `yes` before it changes anything.
+
 ## Where environment variables go
 
 Settings such as the database password live in a file named `.env` in the project folder.

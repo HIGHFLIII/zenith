@@ -37,6 +37,10 @@ yarn-error.log*
 # Prisma Client output
 /lib/generated/prisma
 
+# Local database backups. Keep these off GitHub.
+/zenith-backups/
+/backups/
+
 # vercel
 .vercel
 
