@@ -4,7 +4,10 @@ import { gameBySlugOrThrow } from "@/lib/demo-data";
 import type { ReviewRecord } from "@/types";
 
 export function ReviewCard({ review }: { review: ReviewRecord }) {
-  const game = gameBySlugOrThrow(review.gameSlug);
+  const game =
+    review.gameTitle && review.coverPath
+      ? { title: review.gameTitle, coverPath: review.coverPath }
+      : gameBySlugOrThrow(review.gameSlug);
 
   return (
     <article className="flex gap-4 rounded-xl border border-border bg-card p-4">

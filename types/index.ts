@@ -93,6 +93,8 @@ export type ReviewRecord = {
   body: string;
   createdAt: string;
   rating: number;
+  gameTitle?: string;
+  coverPath?: string;
 };
 
 export type AccountConnection = {

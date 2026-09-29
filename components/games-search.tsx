@@ -4,19 +4,19 @@ import { useMemo, useState } from "react";
 import { GameCard } from "@/components/game-card";
 import { cardGridClassName } from "@/components/section-block";
 import { Input } from "@/components/ui/input";
-import { discoveryGames } from "@/lib/demo-data";
+import type { GameCardModel } from "@/types";
 
-export function GamesSearch() {
+export function GamesSearch({ games }: { games: GameCardModel[] }) {
   const [query, setQuery] = useState("");
 
   const results = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    if (!needle) return discoveryGames;
-    return discoveryGames.filter((game) => {
+    if (!needle) return games;
+    return games.filter((game) => {
       const haystack = `${game.title} ${game.genres.join(" ")} ${game.platforms.join(" ")}`.toLowerCase();
       return haystack.includes(needle);
     });
-  }, [query]);
+  }, [games, query]);
 
   return (
     <div className="space-y-6">
@@ -34,7 +34,7 @@ export function GamesSearch() {
       </div>
       {results.length === 0 ? (
         <p className="rounded-xl border border-dashed border-border px-4 py-10 text-center text-sm text-muted-foreground">
-          No sample games match that search.
+          No games match that search.
         </p>
       ) : (
         <div className={cardGridClassName}>

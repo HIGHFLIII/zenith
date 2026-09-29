@@ -35,6 +35,12 @@ function platformSlug(value: string): PlatformSlug | null {
 
 export type CatalogState = "ok" | "empty" | "unavailable";
 
+export type CatalogProfile = {
+  displayName: string;
+  email: string;
+  favoriteGenres: string[];
+};
+
 export type CatalogSnapshot = {
   state: CatalogState;
   library: GameCardModel[];
@@ -45,6 +51,7 @@ export type CatalogSnapshot = {
   friends: FriendActivity[];
   platformNames: string[];
   genres: string[];
+  profile: CatalogProfile | null;
 };
 
 function emptyCatalog(state: CatalogState): CatalogSnapshot {
@@ -58,6 +65,7 @@ function emptyCatalog(state: CatalogState): CatalogSnapshot {
     friends: [],
     platformNames: [],
     genres: [],
+    profile: null,
   };
 }
 
@@ -82,6 +90,7 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
             },
           },
           ratings: true,
+          preference: true,
         },
       }),
       prisma.review.findMany({
@@ -177,6 +186,8 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
       authorEmail: review.user.email,
       authorName: review.user.displayName,
       gameSlug: review.game.slug,
+      gameTitle: review.game.title,
+      coverPath: review.game.coverPath,
       title: review.title,
       body: review.body,
       createdAt: review.createdAt.toISOString(),
@@ -214,6 +225,13 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
       friends,
       platformNames: platformRows.map((platform) => platform.name),
       genres,
+      profile: alex
+        ? {
+            displayName: alex.displayName,
+            email: alex.email,
+            favoriteGenres: [...(alex.preference?.favoriteGenres ?? [])],
+          }
+        : null,
     };
   } catch {
     return emptyCatalog("unavailable");
