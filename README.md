@@ -81,7 +81,23 @@ npx prisma db seed
 
 You can run that again later. It replaces the sample rows. It does not talk to Steam or any other store.
 
-The pages you click through use the same sample names. They still show that sample content even if you have not seeded yet. Seeding is what puts the rows in PostgreSQL.
+Home and My Library read those rows from PostgreSQL. Until you seed, those two pages say the database has no games. Games, Reviews, Friends, Profile, and Settings still use the sample list saved in the project until a later change.
+
+### On a Raspberry Pi, without Node.js
+
+The Pi copy of this project runs the site in Docker, so Node.js does not have to be installed on the Pi itself. From the project folder (`~/zenith` on the Pi):
+
+```bash
+sudo bash scripts/load-sample-data.sh
+```
+
+That creates the tables and loads the six sample games. The first run downloads a Node image and installs libraries, so it takes a while. When it finishes, rebuild the site so Home and My Library use the new code:
+
+```bash
+sudo docker compose up -d --build
+```
+
+Then refresh the site. Do not add `-v` to any Docker command. That flag deletes the database.
 
 ## How to start the website
 
@@ -159,7 +175,7 @@ After `npm run dev` or `docker compose up --build`, open:
 Pages:
 
 - [http://127.0.0.1:43123](http://127.0.0.1:43123) — home
-- [http://127.0.0.1:43123/library](http://127.0.0.1:43123/library) — sample library
+- [http://127.0.0.1:43123/library](http://127.0.0.1:43123/library) — library stored in PostgreSQL
 - [http://127.0.0.1:43123/games](http://127.0.0.1:43123/games) — sample catalog
 - [http://127.0.0.1:43123/reviews](http://127.0.0.1:43123/reviews)
 - [http://127.0.0.1:43123/friends](http://127.0.0.1:43123/friends)

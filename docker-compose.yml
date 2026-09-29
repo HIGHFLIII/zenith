@@ -35,5 +35,33 @@ services:
       db:
         condition: service_healthy
 
+  # One-off: create tables and load the sample games.
+  # Not started by `docker compose up`. Run scripts/load-sample-data.sh.
+  setup:
+    image: node:22-bookworm-slim
+    profiles: ["setup"]
+    working_dir: /work
+    volumes:
+      - .:/src:ro
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -eu
+        apt-get update
+        apt-get install -y --no-install-recommends openssl ca-certificates
+        rm -rf /var/lib/apt/lists/*
+        mkdir -p /work
+        cp -a /src/. /work/
+        cd /work
+        npm ci
+        npx prisma generate
+        npx prisma migrate deploy
+        npx prisma db seed
+
 volumes:
   zenith_postgres_data:

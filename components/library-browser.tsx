@@ -4,13 +4,20 @@ import { useMemo, useState } from "react";
 import { GameCard } from "@/components/game-card";
 import { cardGridClassName } from "@/components/section-block";
 import { Button } from "@/components/ui/button";
-import { genres, myLibrary, platforms } from "@/lib/demo-data";
-import { LIBRARY_STATUSES, SORT_OPTIONS, type SortOption } from "@/types";
+import { LIBRARY_STATUSES, SORT_OPTIONS, type GameCardModel, type SortOption } from "@/types";
 
 const selectClassName =
   "h-11 w-full rounded-lg border border-input bg-card px-3 text-sm text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none";
 
-export function LibraryBrowser() {
+export function LibraryBrowser({
+  library,
+  platformNames,
+  genres,
+}: {
+  library: GameCardModel[];
+  platformNames: string[];
+  genres: string[];
+}) {
   const [platform, setPlatform] = useState("All");
   const [genre, setGenre] = useState("All");
   const [status, setStatus] = useState("All");
@@ -21,7 +28,7 @@ export function LibraryBrowser() {
   const [sort, setSort] = useState<SortOption>("Recently Played");
 
   const games = useMemo(() => {
-    const filtered = myLibrary.filter((game) => {
+    const filtered = library.filter((game) => {
       if (platform !== "All" && !game.platforms.includes(platform)) return false;
       if (genre !== "All" && !game.genres.includes(genre)) return false;
       if (status !== "All" && game.status !== status) return false;
@@ -33,7 +40,7 @@ export function LibraryBrowser() {
     });
 
     return filtered.sort((a, b) => compareGames(a, b, sort));
-  }, [coop, genre, multiplayer, platform, pve, pvp, sort, status]);
+  }, [coop, genre, library, multiplayer, platform, pve, pvp, sort, status]);
 
   function resetFilters() {
     setPlatform("All");
@@ -58,8 +65,8 @@ export function LibraryBrowser() {
             onChange={(event) => setPlatform(event.target.value)}
           >
             <option>All</option>
-            {platforms.map((item) => (
-              <option key={item.slug}>{item.name}</option>
+            {platformNames.map((item) => (
+              <option key={item}>{item}</option>
             ))}
           </select>
         </label>
@@ -115,7 +122,7 @@ export function LibraryBrowser() {
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-muted-foreground">
-          {games.length} of {myLibrary.length} library entries
+          {games.length} of {library.length} library entries
         </p>
         <Button type="button" variant="outline" className="h-11" onClick={resetFilters}>
           Reset filters
@@ -159,11 +166,7 @@ function FilterCheck({
   );
 }
 
-function compareGames(
-  a: (typeof myLibrary)[number],
-  b: (typeof myLibrary)[number],
-  sort: SortOption,
-) {
+function compareGames(a: GameCardModel, b: GameCardModel, sort: SortOption) {
   const title = a.title.localeCompare(b.title) || a.platforms[0].localeCompare(b.platforms[0]);
   switch (sort) {
     case "Recently Played":
