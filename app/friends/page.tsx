@@ -12,11 +12,12 @@ export const metadata: Metadata = {
 
 export default async function FriendsPage() {
   const catalog = await loadCatalog();
+  const ownerName = catalog.profile?.displayName ?? "you";
 
   return (
     <div className="space-y-8">
       <PageIntro title="Friends">
-        People stored in PostgreSQL, other than Alex Rivera, who have a game marked Playing. There
+        People stored in PostgreSQL, other than {ownerName}, who have a game marked Playing. There
         is no friend list, invite, or social login yet.
       </PageIntro>
       {catalog.state !== "ok" ? (

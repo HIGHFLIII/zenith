@@ -1,3 +1,4 @@
+import { LIBRARY_OWNER_EMAIL } from "@/lib/owner";
 import { getPrisma } from "@/lib/prisma";
 import type {
   FriendActivity,
@@ -7,8 +8,6 @@ import type {
   PlatformSlug,
   ReviewRecord,
 } from "@/types";
-
-const ALEX_EMAIL = "alex@example.com";
 
 const STATUS_LABEL = {
   PLAYING: "Playing",
@@ -68,6 +67,7 @@ export type CatalogSnapshot = {
   genres: string[];
   profile: CatalogProfile | null;
   accounts: CatalogAccount[];
+  platforms: { slug: string; name: string }[];
 };
 
 function emptyCatalog(state: CatalogState): CatalogSnapshot {
@@ -83,6 +83,7 @@ function emptyCatalog(state: CatalogState): CatalogSnapshot {
     genres: [],
     profile: null,
     accounts: [],
+    platforms: [],
   };
 }
 
@@ -98,7 +99,7 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
         },
       }),
       prisma.user.findUnique({
-        where: { email: ALEX_EMAIL },
+        where: { email: LIBRARY_OWNER_EMAIL },
         include: {
           libraryGames: {
             include: {
@@ -124,7 +125,7 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
       prisma.userLibraryGame.findMany({
         where: {
           status: "PLAYING",
-          user: { email: { not: ALEX_EMAIL } },
+          user: { email: { not: LIBRARY_OWNER_EMAIL } },
         },
         include: {
           user: true,
@@ -231,7 +232,7 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
 
     const genres = [...new Set(gameRows.flatMap((game) => game.genres))].sort();
 
-    if (gameRows.length === 0) {
+    if (platformRows.length === 0 && gameRows.length === 0 && !alex) {
       return emptyCatalog("empty");
     }
 
@@ -264,6 +265,7 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
             favoriteGenres: [...(alex.preference?.favoriteGenres ?? [])],
           }
         : null,
+      platforms: platformRows.map((platform) => ({ slug: platform.slug, name: platform.name })),
     };
   } catch {
     return emptyCatalog("unavailable");

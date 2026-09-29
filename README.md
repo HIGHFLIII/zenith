@@ -83,6 +83,8 @@ You can run that again later. It replaces the sample rows. It does not talk to S
 
 Home, My Library, Games, Reviews, Friends, Profile, and Settings read those rows from PostgreSQL. Until you seed, those pages say the database has no games. The Admin page is still a sample dashboard.
 
+On My Library you can add a game you own. On Settings you can save the name the site shows. Neither one contacts Steam or any other store. The sample games stay in the database until you remove them. Removing games is not available yet.
+
 ### On a Raspberry Pi, without Node.js
 
 The Pi copy of this project runs the site in Docker, so Node.js does not have to be installed on the Pi itself. From the project folder (`~/zenith` on the Pi):

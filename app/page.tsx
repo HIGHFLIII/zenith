@@ -17,13 +17,14 @@ const secondaryLink =
 
 export default async function HomePage() {
   const catalog = await loadCatalog();
+  const ownerName = catalog.profile?.displayName ?? "Your";
   const covers = catalog.popularGames.slice(0, 3);
 
   return (
     <div className="space-y-12">
       <section className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-4">
-          <p className="text-sm font-medium tracking-wide text-primary">Alex Rivera’s library</p>
+          <p className="text-sm font-medium tracking-wide text-primary">{ownerName}&apos;s library</p>
           <h1 className="max-w-xl text-4xl font-semibold tracking-tight sm:text-5xl">
             One library for every place you play.
           </h1>
@@ -64,7 +65,7 @@ export default async function HomePage() {
 
       <SectionBlock
         title="Recommended For You"
-        description="The highest match scores saved on Alex Rivera’s games. Nothing here is calculated live."
+        description={`The highest match scores saved on ${ownerName}'s games. Nothing here is calculated live.`}
       >
         <GameGrid games={catalog.recommended} />
       </SectionBlock>

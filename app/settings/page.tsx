@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DatabaseNotice } from "@/components/database-notice";
+import { SaveNameForm } from "@/components/save-name-form";
 import { AccountStatusBadge } from "@/components/status-badge";
 import { PageIntro } from "@/components/section-block";
 import { Input } from "@/components/ui/input";
@@ -18,8 +19,8 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-10">
       <PageIntro title="Settings">
-        Account details and gaming platform connections saved in PostgreSQL. Nothing here signs
-        you in, and no store is contacted.
+        Your name and the gaming platform rows saved in PostgreSQL. Nothing here signs you in,
+        and no store is contacted.
       </PageIntro>
 
       {catalog.state !== "ok" || !profile ? (
@@ -27,20 +28,17 @@ export default async function SettingsPage() {
       ) : (
         <>
           <section className="max-w-lg space-y-4">
-            <h2 className="text-xl font-semibold tracking-tight">Account</h2>
-            <div className="space-y-1">
-              <label htmlFor="display-name" className="text-sm font-medium">
-                Display name
-              </label>
-              <Input id="display-name" value={profile.displayName} readOnly />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">Your name</h2>
+            <SaveNameForm displayName={profile.displayName} />
             <div className="space-y-1">
               <label htmlFor="email" className="text-sm font-medium">
-                Email
+                Library record
               </label>
               <Input id="email" type="email" value={profile.email} readOnly />
             </div>
-            <p className="text-sm text-muted-foreground">Editing your account is not available yet.</p>
+            <p className="text-sm text-muted-foreground">
+              The name above is what the site shows. Sign-in is not available yet.
+            </p>
           </section>
 
           <section className="space-y-4">
