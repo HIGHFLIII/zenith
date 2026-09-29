@@ -222,6 +222,9 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
         name: entry.user.displayName,
         gameSlug: entry.game.slug,
         platformSlug: slug,
+        gameTitle: entry.game.title,
+        coverPath: entry.game.coverPath,
+        platformName: entry.platform.name,
         note: "Marked Playing in the database.",
       });
     }

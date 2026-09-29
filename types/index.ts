@@ -114,4 +114,7 @@ export type FriendActivity = {
   gameSlug: string;
   platformSlug: PlatformSlug;
   note: string;
+  gameTitle?: string;
+  coverPath?: string;
+  platformName?: string;
 };
