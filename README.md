@@ -81,7 +81,7 @@ npx prisma db seed
 
 You can run that again later. It replaces the sample rows. It does not talk to Steam or any other store.
 
-Home, My Library, Games, Reviews, and Profile read those rows from PostgreSQL. Until you seed, those pages say the database has no games. Friends and Settings still use the sample list saved in the project.
+Home, My Library, Games, Reviews, Profile, and Settings read those rows from PostgreSQL. Until you seed, those pages say the database has no games. Friends still uses the sample list saved in the project.
 
 ### On a Raspberry Pi, without Node.js
 
@@ -200,7 +200,7 @@ Pages:
 - [http://127.0.0.1:43123/reviews](http://127.0.0.1:43123/reviews) — reviews stored in PostgreSQL
 - [http://127.0.0.1:43123/friends](http://127.0.0.1:43123/friends)
 - [http://127.0.0.1:43123/profile](http://127.0.0.1:43123/profile) — profile stored in PostgreSQL
-- [http://127.0.0.1:43123/settings](http://127.0.0.1:43123/settings) — sample platform connections
+- [http://127.0.0.1:43123/settings](http://127.0.0.1:43123/settings) — platform connections stored in PostgreSQL
 - [http://127.0.0.1:43123/admin](http://127.0.0.1:43123/admin) — sample admin page (no login yet)
 
 A small health check is at [http://127.0.0.1:43123/api/health](http://127.0.0.1:43123/api/health). It says the site is running, and whether the database answered. It does not show the database password or address.

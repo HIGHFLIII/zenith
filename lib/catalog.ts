@@ -3,6 +3,7 @@ import type {
   FriendActivity,
   GameCardModel,
   LibraryStatus,
+  PlatformAccountStatus,
   PlatformSlug,
   ReviewRecord,
 } from "@/types";
@@ -17,6 +18,13 @@ const STATUS_LABEL = {
   WANT_TO_PLAY: "Want to Play",
   FAVORITE: "Favorite",
 } as const satisfies Record<string, LibraryStatus>;
+
+const ACCOUNT_STATUS = {
+  CONNECTED: "Connected",
+  NOT_CONNECTED: "Not Connected",
+  PARTIAL_SYNC: "Partial Sync",
+  MANUAL_LIBRARY: "Manual Library",
+} as const satisfies Record<string, PlatformAccountStatus>;
 
 const PLATFORM_SLUGS: readonly PlatformSlug[] = [
   "steam",
@@ -41,6 +49,13 @@ export type CatalogProfile = {
   favoriteGenres: string[];
 };
 
+export type CatalogAccount = {
+  id: string;
+  platformName: string;
+  status: PlatformAccountStatus;
+  displayName: string | null;
+};
+
 export type CatalogSnapshot = {
   state: CatalogState;
   library: GameCardModel[];
@@ -52,6 +67,7 @@ export type CatalogSnapshot = {
   platformNames: string[];
   genres: string[];
   profile: CatalogProfile | null;
+  accounts: CatalogAccount[];
 };
 
 function emptyCatalog(state: CatalogState): CatalogSnapshot {
@@ -66,6 +82,7 @@ function emptyCatalog(state: CatalogState): CatalogSnapshot {
     platformNames: [],
     genres: [],
     profile: null,
+    accounts: [],
   };
 }
 
@@ -91,6 +108,9 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
           },
           ratings: true,
           preference: true,
+          platformAccounts: {
+            include: { platform: true },
+          },
         },
       }),
       prisma.review.findMany({
@@ -225,6 +245,15 @@ export async function loadCatalog(): Promise<CatalogSnapshot> {
       friends,
       platformNames: platformRows.map((platform) => platform.name),
       genres,
+      accounts: (alex?.platformAccounts ?? [])
+        .slice()
+        .sort((a, b) => a.platform.createdAt.getTime() - b.platform.createdAt.getTime())
+        .map((account) => ({
+          id: account.id,
+          platformName: account.platform.name,
+          status: ACCOUNT_STATUS[account.status],
+          displayName: account.displayName,
+        })),
       profile: alex
         ? {
             displayName: alex.displayName,
