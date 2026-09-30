@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DatabaseNotice } from "@/components/database-notice";
 import { SaveNameForm } from "@/components/save-name-form";
+import { SteamImportForm } from "@/components/steam-import-form";
 import { AccountStatusBadge } from "@/components/status-badge";
 import { PageIntro } from "@/components/section-block";
 import { Input } from "@/components/ui/input";
@@ -19,8 +20,8 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-10">
       <PageIntro title="Settings">
-        Your name and the gaming platform rows saved in PostgreSQL. Nothing here signs you in,
-        and no store is contacted.
+        Your name is saved here. Steam is contacted only when you click Import Steam library. No
+        other store is contacted, and nothing here signs you in.
       </PageIntro>
 
       {catalog.state !== "ok" || !profile ? (
@@ -40,6 +41,8 @@ export default async function SettingsPage() {
               The name above is what the site shows. Sign-in is not available yet.
             </p>
           </section>
+
+          <SteamImportForm />
 
           <section className="space-y-4">
             <div className="space-y-1">

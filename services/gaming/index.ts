@@ -1,5 +1,5 @@
 /**
- * Home for future gaming-platform integrations.
- * No store APIs are connected in this phase.
+ * Store connections. Steam is used only when STEAM_API_KEY and STEAM_ID are set
+ * and someone clicks Import Steam library.
  */
-export {};
+export { fetchSteamLibrary } from "./steam";

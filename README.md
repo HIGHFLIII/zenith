@@ -83,7 +83,32 @@ You can run that again later. It replaces the sample rows. It does not talk to S
 
 Home, My Library, Games, Reviews, Friends, Profile, and Settings read those rows from PostgreSQL. Until you seed, those pages say the database has no games. The Admin page is still a sample dashboard.
 
-On My Library you can add a game you own. On Settings you can save the name the site shows. Neither one contacts Steam or any other store. The sample games stay in the database until you remove them. Removing games is not available yet.
+On My Library you can add a game you own. On Settings you can save the name the site shows, and you can import the games Steam says you own. Xbox, PlayStation, Nintendo, and the other stores are not contacted. The sample games stay in the database until you remove them. Removing games from the site is not available yet.
+
+Do not run the sample-data command again after a Steam import. That command deletes the saved library and puts the sample games back.
+
+## How to import your Steam library
+
+Steam gives you a personal key. Zenith uses that key only on the server, when you click **Import Steam library** on Settings.
+
+1. While logged into the Steam account that owns the games, open [https://steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey). Enter `localhost` as the domain, agree to the terms, and register. Leave the key on that page. Do not send it in chat or commit it.
+2. Open your Steam profile. The 17-digit number in `https://steamcommunity.com/profiles/7656119...` is your Steam ID.
+3. On Steam, open **Edit Profile**, then **Privacy Settings**, and set **Game details** to **Public**.
+
+On the computer that runs the site, add these two lines to `.env` and fill in your own values:
+
+```text
+STEAM_API_KEY=
+STEAM_ID=
+```
+
+Restart the site so it sees the new file. With Docker:
+
+```bash
+docker compose up -d
+```
+
+Open Settings and click **Import Steam library**. Games played in the last two weeks are marked Playing. The rest are marked Backlog. Playtime is the time Steam recorded. Importing again updates playtime and leaves a status you already saved.
 
 ### On a Raspberry Pi, without Node.js
 
